@@ -1,0 +1,77 @@
+<html>
+    <body>
+        <input type="file" name="file" id="file">
+        <div id='output'>
+            ...
+        </div>
+        <script>
+          let result;
+            let thesum = 0;
+  var num = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+  var num2 = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  var tempnum = []
+  var sum = []
+  const $output = document.getElementById('output')
+  document.getElementById('file').onchange = function() {
+      var file = this.files[0];
+
+      var reader = new FileReader();
+      reader.onload = function(progressEvent) {
+          const text = this.result;
+          var lines = text.split('\n');
+          for (i = 0; i < lines.length ; i++) {
+              for (i2 = 0; i2 < lines[i].length ; i2++) {
+                lines[i] = lines[i].replace(/[\r\n]/gm, '');
+                  if (!isNaN(lines[i][i2])) {
+                      tempnum.push(lines[i][i2]);
+                  }else if (isNaN(lines[i][i2])) {
+                      let text1 = lines[i][i2] + lines[i][i2 + 1] + lines[i][i2 + 2];
+                      for (i3 = 0; i3 < num.length; i3++) {
+                          result = text1.includes(num[i3]);
+                          if (result) {
+                              tempnum.push(num2[i3]);
+                              i3 = num.length;
+                          }
+                      }
+                      if(result == false){
+                        for (i3 = 0; i3 < num.length; i3++) {
+                          result = num[i3].includes(text1);
+                          if (result) {
+                            text1 = lines[i][i2] + lines[i][i2 + 1] + lines[i][i2 + 2] + lines[i][i2 + 3] + lines[i][i2 + 4];
+                              for (i3 = 0; i3 < num.length; i3++) {
+                                  result = text1.includes(num[i3]);
+                                  if(result){
+                                      tempnum.push(num2[i3]);
+                                  }
+                                  
+                              }
+                          }
+                      }
+                              
+                  }
+                }
+              }
+              var a = tempnum[0] + tempnum[tempnum.length - 1]
+              sum.push(a);
+
+              tempnum = [];
+          }
+          for (i = 0; i < sum.length; i++) {
+              sum[i] = parseInt(sum[i]);
+          }
+          for (i = 0; i < sum.length; i++) {
+              thesum = thesum + sum[i]
+          }
+          console.log(sum)
+          console.log(thesum)
+
+      };
+      reader.readAsText(file);
+  };
+
+  function myFunc(total, num) {
+      return total + num;
+  }
+        </script>
+    </body>
+</html>
