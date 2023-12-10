@@ -1,0 +1,74 @@
+<html>
+    <body>
+        <input type="file" name="file" id="file">
+        <div id='output'>
+            ...
+        </div>
+        <script>
+  let tempnum = []
+  var num = [];
+  var color = ['red','green','blue'];
+  var sum = []
+  let tempnum2 = ""
+  var num2 = []
+  const $output = document.getElementById('output')
+  document.getElementById('file').onchange = function() {
+      var file = this.files[0];
+
+      var reader = new FileReader();
+      reader.onload = function(progressEvent) {
+          const text = this.result;
+          var lines = text.split('\n');
+          for (i = 0; i < lines.length ; i++) {
+                lines[i] = lines[i].replace(/[\r\n]/, '');
+                let line = lines[i].split(':');
+                let line2 = line[1].split(/[,;]/);
+                document.getElementById("output").innerHTML = lines
+                for(i2 = 0; i2  < line2.length;i2++){
+                    for(i3 = 0; i3 < line2[i2].length;i3++){
+                        if(!isNaN(line2[i2][i3]) && line2[i2][i3] != " "){
+                            tempnum.push(line2[i2][i3])    
+                            // console.log( "tempnum :" + tempnum)
+                        }
+                    }
+                    // console.log("tempnum length :" + tempnum.length)
+                    for(i3 = 0; i3 < tempnum.length;i3++){
+                        tempnum2 = tempnum2 + tempnum[i3];
+                        tempnum2 = parseInt(tempnum2)
+                        // console.log("tempnum2 :" + tempnum2)
+                    }
+                    for(i3 = 0; i3 < color.length; i3++){
+                        result = line2[i2].includes(color[i3])
+                        if(result){
+                            if(num[i3] == null){
+                                num[i3] = tempnum2;
+                            }else if(tempnum2 > num[i3]){
+                                num[i3] = tempnum2;
+                            }
+                            // console.log("num")
+                            // console.log(num)
+                            // console.log("-----------cycle over-------------")
+                    tempnum2 = 0
+                    tempnum = []
+                        }
+                    }
+                }
+                // console.log("lvl :" + i)
+                // console.log(num)
+                sum.push(num.reduce(myFuncmulti))
+                num =[]
+          }
+          console.log(sum.reduce(myFunc));
+      };
+      reader.readAsText(file);
+  };
+
+  function myFunc(total, num) {
+      return total + num;
+  }
+  function myFuncmulti(total, num) {
+      return total * num;
+  }
+        </script>
+    </body>
+</html>
