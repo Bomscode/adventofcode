@@ -1,0 +1,88 @@
+<html>
+    <body>
+        <input type="file" name="file" id="file">
+        <div id='output'>
+            ...
+        </div>
+        <script>
+          let result;
+            let thesum = 0;
+  var num2 = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  let tempnum = []
+  var num = [];
+  var color = ['red','green','blue'];
+  var sum = []
+  let tempnum2 = ""
+  var tru = true;
+  var limit = [12,13,14]
+  const $output = document.getElementById('output')
+  document.getElementById('file').onchange = function() {
+      var file = this.files[0];
+
+      var reader = new FileReader();
+      reader.onload = function(progressEvent) {
+          const text = this.result;
+          var lines = text.split('\n');
+          for (i = 0; i < lines.length ; i++) {
+            tru = true;
+            let line = lines[i].split(':');
+            line = line[1].split(";");
+            for(i2 = 0; i2 < line.length ; i2++){
+            // console.log("the line :" + line[i2])
+                let line2 = line[i2].split(",");
+                for(i3 = 0;i3 < line2.length; i3++){
+                // // console.log("the game :" + line2[i3])
+                    for(i4 = 0;i4 < line2[i3].length; i4++){
+                        for(i5 = 0;i5 < num2.length; i5++){
+                        result = line2[i3][i4].includes(num2[i5]);
+                        // console.log("the char :" + line2[i3][i4])
+                            if(result){
+                                tempnum.push(line2[i3][i4]);
+                            }
+                        }
+                    }
+                    for(i4 = 0;i4 < tempnum.length;i4++){
+                        // console.log("tempnum[i4] :" + tempnum[i4])
+                        tempnum2 = tempnum2 + tempnum[i4]
+                    }
+                    for(i4 = 0;i4 < color.length;i4++){
+                        result = line2[i3].includes(color[i4]);
+                        if(result){
+                            // console.log("tempnum2 :" + tempnum2)
+                            num[i4] = tempnum2
+                            // console.log("num ")
+                            // console.log(num)
+                        }
+                    }  
+                    for(i4 = 0;i4 < color.length;i4++){
+                        // console.log("thenum:" +  num[i4] + "the limit :" + limit[i4])
+                        if(num[i4] > limit[i4]){
+                            tru = false
+                            i2 = line.length
+                        }
+                        // console.log("true :" + tru)
+                        // console.log("end------------------------")
+                    }
+                tempnum2 =""
+                tempnum = []
+                }
+                
+                num = [];
+            }
+            // console.log(tru)
+            if(tru == true){
+                sum.push(i + 1);
+            }
+          }
+          // console.log(sum)
+          console.log(sum.reduce(myFunc));
+      };
+      reader.readAsText(file);
+  };
+
+  function myFunc(total, num) {
+      return total + num;
+  }
+        </script>
+    </body>
+</html>
